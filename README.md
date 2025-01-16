@@ -1,70 +1,109 @@
-# Getting Started with Create React App
+# Moodie - Your Personal Mood Support WebApp
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Moodie is a web-based application designed to help users log their daily moods, analyze mood trends, and provide empathetic support via an interactive chatbot. Built with React and integrated with the Gemini AI API, Moodie leverages AI to provide personalized responses based on the user's mood history.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+### 1. **Daily Mood Logging**
 
-### `npm start`
+* Users can log their daily moods along with optional notes.
+* Moods are represented with emojis (e.g., 😊 for happy, 😑 for neutral).
+* **Key Logic**: Each mood entry is stored as an object containing:
+  ```
+  {
+    "date": "2025-01-15T10:00:00Z",
+    "mood": "😊",
+    "note": "Feeling great!"
+  }
+  ```
+* These entries are stored in the browser’s local storage to ensure data persistence across sessions.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 2. **Mood History**
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+* Displays the last 5 logged moods, including dates and notes.
+* Users can edit or delete individual mood entries.
+* **Edit Logic**:
+  * When a user clicks the edit button, the current mood and note are pre-filled into editable fields.
+  * Updates are saved back to the local storage.
+* **Delete Logic**:
+  * Deletes the selected entry and updates the local storage.
 
-### `npm test`
+### 3. **Weekly Summary**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* Visualizes the user’s mood distribution over the last 7 days using a bar chart.
+* **Key Logic**:
+  * The app calculates mood frequencies for the week and displays them using the Recharts library.
 
-### `npm run build`
+### 4. **Mood Prediction**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+* Predicts the user’s future mood based on recent mood trends.
+* **Key Logic**:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  * Weights are assigned to recent moods, prioritizing the latest entries.
+  * The mood with the highest weighted score is predicted.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  ```
+  const moodScores = lastThreeMoods.reduce((acc, entry, index) => {
+    const weight = moodWeight[entry.mood] * (index + 1);
+    acc[entry.mood] = (acc[entry.mood] || 0) + weight;
+    return acc;
+  }, {});
+  ```
 
-### `npm run eject`
+### 5. **Interactive Chatbot**
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+* Users can interact with a chatbot powered by the Gemini AI API.
+* **Features**:
+  * Provides personalized responses based on the user’s mood history.
+  * Asks about the user’s current mood if no history is available.
+* **Key Logic**:
+  * API requests include the user’s last 5 mood entries for context.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 6. **Theme Toggle**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+* Supports light and dark themes.
+* **Key Logic**:
+  * The theme preference is saved in local storage and applied during the initial render.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Technologies Used
 
-## Learn More
+* **Frontend**:
+  * React.js for UI development.
+  * Tailwind CSS for styling.
+  * Recharts for data visualization.
+* **Backend Integration**:
+  * Gemini AI API for chatbot responses.
+* **State Management**:
+  * React state hooks for managing moods, themes, and chat interactions.
+* **Local Storage**:
+  * Used to persist mood history and theme preferences.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Getting Started
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Prerequisites
 
-### Code Splitting
+* Node.js installed on your machine.
+* Gemini API key (for chatbot integration).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Installation
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. Clone the repository:
+   ```
+   git clone https://github.com/your-username/moodie.git
+   ```
+2. Navigate to the project directory:
+   ```
+   cd moodie
+   ```
+3. Install dependencies:
+   ```
+   npm install
+   ```
+4. Create a `<span>.env</span>` file in the root directory and add your Gemini API key:
+   ```
+   REACT_APP_GOOGLE_GENERATIVE_AI_KEY=your_gemini_api_key
+   ```
+5. Start the development server:
+   ```
+   npm start
+   ```
