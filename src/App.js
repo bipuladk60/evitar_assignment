@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Chatbox } from "./components/ChatBot";
 import { MoodPrediction } from "./components/MoodPrediction";
 import { DailyMoodLog } from "./components/DailyMoodLog";
 import { MoodHistory } from "./components/MoodHistory";
@@ -78,6 +79,9 @@ function App() {
         {/* Bottom Section: Weekly Summary */}
         <div className="glass-card">
           <WeeklySummary moodEntries={moodEntries} />
+        </div>
+        <div className="fixed bottom-4 right-4 z-50">
+        <Chatbox moodEntries={moodEntries} />
         </div>
       </div>
     </div>
