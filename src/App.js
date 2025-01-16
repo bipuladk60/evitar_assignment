@@ -7,7 +7,7 @@ import { ThemeToggle } from "./components/ThemeToggle";
 
 function App() {
   const [moodEntries, setMoodEntries] = useState([]);
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
     const storedEntries = localStorage.getItem("moodEntries");
