@@ -2,13 +2,21 @@ import React from "react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 export function MoodPrediction({ moodEntries }) {
+  const emojiToMood = {
+    "😊": "happy(😊)",
+    "😐": "neutral(😐)",
+    "😞": "sad(😞)",
+    "😡": "angry(😡)",
+    "😴": "tired(😴)",
+  };
+
   const predictMood = () => {
     if (moodEntries.length < 3) return null;
 
     const lastThreeMoods = moodEntries.slice(-3).map((entry) => entry.mood);
     const allSame = lastThreeMoods.every((mood) => mood === lastThreeMoods[0]);
 
-    return allSame ? lastThreeMoods[0] : null;
+    return allSame ? emojiToMood[lastThreeMoods[0]] : null;
   };
 
   const predictedMood = predictMood();
@@ -27,8 +35,8 @@ export function MoodPrediction({ moodEntries }) {
         <div>
           {predictedMood ? (
             <p className="text-paragraph">
-              You might feel{" "}
-              <span className="font-bold text-highlight">{predictedMood}</span>{" "}
+              Based on your past moods, your mood might be{" "}
+              <span className="font-bold">{predictedMood}</span>{" "}
               tomorrow unless you make some changes!
             </p>
           ) : (

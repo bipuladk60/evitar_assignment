@@ -13,8 +13,8 @@ export function DailyMoodLog({ addMoodEntry }) {
   return (
     <div className="card flex flex-col h-full">
       <div className="card-header">
-        <h2 className="text-largeTitle font-bold">How are you feeling today?</h2>
-        <p className="text-paragraph text-textSecondary">Enter a note and select your mood</p>
+        <h2 className="lg:text-largeTitle font-bold text-[1.2rem]">How are you feeling today?</h2>
+        <p className="md:text-paragraph text-[0.8rem] text-textSecondary">Enter a note and select your mood</p>
       </div>
       <div className="mt-10 card-content flex flex-col flex-grow space-y-4">
         <textarea

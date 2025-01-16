@@ -8,9 +8,9 @@ export function MoodHistory({ moodEntries, updateMoodEntry, deleteMoodEntry }) {
   return (
     <div className="glass-card p-6 space-y-4">
       {/* Header */}
-      <div className="space-y-2">
-        <h2 className="text-largeTitle font-bold">Mood History</h2>
-        <p className="text-paragraph text-textSecondary">
+      <div className="">
+        <h2 className="md:text-largeTitle text-[1.2rem] font-bold">Mood History</h2>
+        <p className="md:text-paragraph text-textSecondary text-[0.8rem]">
           Your mood for the past 5 logs
         </p>
       </div>
