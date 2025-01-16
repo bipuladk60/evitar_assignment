@@ -1,25 +1,49 @@
-import React, { useContext } from "react";
-import { MoodContext } from "../context/MoodContext";
+import React from "react";
+import { MoodEntryComponent } from "./MoodEntryComponent";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
-const MoodHistory = () => {
-  const { moodLog } = useContext(MoodContext);
-
-  // Sort and get the last 5 days
-  const lastFiveDays = moodLog.slice(-5).reverse();
+export function MoodHistory({ moodEntries, updateMoodEntry, deleteMoodEntry }) {
+  const lastFiveDays = moodEntries.slice(-5).reverse();
 
   return (
-    <div className="mood-history">
-      <h2>Past 5 Days</h2>
-      <ul>
+    <div className="glass-card p-6 space-y-4">
+      {/* Header */}
+      <div className="space-y-2">
+        <h2 className="text-largeTitle font-bold">Mood History</h2>
+        <p className="text-paragraph text-textSecondary">
+          Your mood for the past 5 logs
+        </p>
+      </div>
+
+      {/* Mood Entries */}
+      <div className="space-y-4">
         {lastFiveDays.map((entry) => (
-          <li key={entry.date} className="mb-2">
-            <span className="font-bold">{entry.date}</span>: {entry.mood} -{" "}
-            {entry.note}
-          </li>
+          <div
+            key={entry.date}
+            className="flex items-center justify-between p-4 border-b last:border-b-0"
+          >
+            <div className="flex items-center space-x-4">
+              <span className="text-2xl">{entry.mood}</span>
+              <span>{new Date(entry.date).toLocaleDateString()}</span>
+              <span className="text-textSecondary">{entry.note}</span>
+            </div>
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={() => updateMoodEntry(entry.date, entry.mood, entry.note)}
+                className="text-blue-500 hover:text-blue-700"
+              >
+                <FaEdit size={20} />
+              </button>
+              <button
+                onClick={() => deleteMoodEntry(entry.date)}
+                className="text-red-500 hover:text-red-700"
+              >
+                <FaTrashAlt size={20} />
+              </button>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
-};
-
-export default MoodHistory;
+}

@@ -1,57 +1,38 @@
-import React, { useContext } from "react";
-import { MoodContext } from "../context/MoodContext";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import { Bar } from "react-chartjs-2";
+import React from "react";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
-// Register Chart.js components
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
-
-const WeeklySummary = () => {
-  const { moodLog } = useContext(MoodContext);
-
-  const moodCounts = moodLog.reduce((acc, entry) => {
-    acc[entry.mood] = (acc[entry.mood] || 0) + 1;
-    return acc;
-  }, {});
-
-  const data = {
-    labels: Object.keys(moodCounts),
-    datasets: [
-      {
-        label: "Mood Counts",
-        data: Object.values(moodCounts),
-        backgroundColor: ["#ffcd56", "#ff6384", "#36a2eb", "#4bc0c0", "#9966ff"],
-      },
-    ],
+export function WeeklySummary({ moodEntries }) {
+  const lastWeekEntries = moodEntries.slice(-7);
+  const moodCounts = {
+    "😊": 0,
+    "😐": 0,
+    "😞": 0,
+    "😡": 0,
+    "😴": 0,
   };
 
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top",
-      },
-      title: {
-        display: true,
-        text: "Mood Summary for the Week",
-      },
-    },
-  };
+  lastWeekEntries.forEach((entry) => {
+    moodCounts[entry.mood]++;
+  });
+
+  const data = Object.entries(moodCounts).map(([mood, count]) => ({ mood, count }));
 
   return (
-    <div>
-      <h2>Weekly Mood Summary</h2>
-      <Bar data={data} options={options} />
+    <div className="card">
+      <div className="card-header">
+        <h2 className="text-largeTitle font-bold">Weekly Summary</h2>
+        <p className="text-paragraph text-textSecondary">Your mood distribution for the past week</p>
+      </div>
+      <div className="card-content">
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={data}>
+            <XAxis dataKey="mood" />
+            <YAxis />
+            <Tooltip />
+            <Bar dataKey="count" fill="#8884d8" />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
-};
-
-export default WeeklySummary;
+}

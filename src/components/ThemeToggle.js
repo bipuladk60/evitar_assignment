@@ -1,32 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-const ThemeToggle = () => {
+export function ThemeToggle({ isDarkMode, setIsDarkMode }) {
   const toggleTheme = () => {
-    const htmlElement = document.documentElement;
-    if (htmlElement.classList.contains("dark")) {
-      htmlElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    } else {
-      htmlElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    }
+    const newMode = !isDarkMode;
+    setIsDarkMode(newMode);
+    document.documentElement.classList.toggle("dark", newMode);
+    localStorage.setItem("theme", newMode ? "dark" : "light");
   };
 
-  React.useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") || "light";
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
+      setIsDarkMode(true);
       document.documentElement.classList.add("dark");
     }
-  }, []);
+  }, [setIsDarkMode]);
 
   return (
     <button
       onClick={toggleTheme}
-      className="py-2 px-4 bg-gray-300 dark:bg-gray-700 rounded font-bold"
+      className="py-2 px-4 bg-gray-300 dark:bg-gray-700 text-black dark:text-white rounded font-bold"
     >
-      Toggle Theme
+      {isDarkMode ? "Light Mode" : "Dark Mode"}
     </button>
   );
-};
-
-export default ThemeToggle;
+}
