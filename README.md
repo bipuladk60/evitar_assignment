@@ -89,7 +89,7 @@ Moodie is a web-based application designed to help users log their daily moods, 
 
 1. Clone the repository:
    ```
-   git clone https://github.com/your-username/moodie.git
+   git clonehttps://github.com/bipuladk60/evitar_assignment.git
    ```
 2. Navigate to the project directory:
    ```

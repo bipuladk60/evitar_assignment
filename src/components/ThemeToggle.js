@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { MdOutlineLightMode, MdDarkMode } from "react-icons/md";
 
 export function ThemeToggle({ isDarkMode, setIsDarkMode }) {
   const toggleTheme = () => {
@@ -19,9 +20,13 @@ export function ThemeToggle({ isDarkMode, setIsDarkMode }) {
   return (
     <button
       onClick={toggleTheme}
-      className="py-2 px-4 bg-gray-300 dark:bg-gray-700 text-black dark:text-white rounded font-bold"
+      className="flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 dark:from-yellow-500 dark:to-orange-500 text-white shadow-lg hover:scale-110 transition-transform duration-300 ease-in-out fixed top-4 right-4 z-50"
     >
-      {isDarkMode ? "Light Mode" : "Dark Mode"}
+      {isDarkMode ? (
+        <MdOutlineLightMode size={32} />
+      ) : (
+        <MdDarkMode size={32} />
+      )}
     </button>
   );
 }

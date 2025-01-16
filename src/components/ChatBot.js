@@ -97,7 +97,7 @@ export function Chatbox({ moodEntries }) {
           </div>
 
           {/* Chat Messages */}
-          <div className="flex-grow p-4 overflow-y-auto space-y-4">
+          <div className="flex-grow p-4 overflow-y-auto space-y-4 dark:text-black">
             {messages.map((message, index) => (
               <div
                 key={index}
