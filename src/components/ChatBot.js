@@ -6,6 +6,7 @@ export function Chatbox({ moodEntries }) {
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState("");
 
+
   const genAI = new GoogleGenerativeAI(process.env.REACT_APP_GOOGLE_GENERATIVE_AI_KEY);
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
@@ -26,6 +27,10 @@ export function Chatbox({ moodEntries }) {
       return result.response.text();
     } catch (error) {
       console.error("Error fetching response from Gemini:", error);
+      // Handle quota limit exceeded error
+      if (error.response && error.response.status === 429) {
+        return "Quota exceeded. Please try again later.";
+      }
       return "Sorry, I couldn't process your request. Please try again.";
     }
   };
@@ -53,7 +58,7 @@ export function Chatbox({ moodEntries }) {
 
   const handleChatClose = () => {
     setIsOpen(false);
-    setMessages([]); // Ensure messages are cleared when the chatbox is closed
+    setMessages([]);
   };
 
   const handleSend = async () => {
